@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas da Amostra</title>
+</head>
+<body>
+    <h1>Notas da Amostra</h1>
+    <div id="amostra"></div>
+    <h2>Média das Notas</h2>
+    <div id="media"></div>
+    <h2>Percentual de Notas Acima da Média</h2>
+    <div id="percentual"></div>
+    <script>
+        function DigitaAmostra() {
+            const amostra = [];
+            let input;
+            while (input !== null) {
+                input = prompt("Digite as notas dentro da amostra, quando terminar digite 'parar'");
+                if (input !== null && input.toLowerCase() !== 'parar') {
+                    const numero = parseFloat(input);
+                    if (!isNaN(numero)) {
+                        amostra.push(numero);
+                        MostrarAmostra(amostra);
+                    } else {
+                        alert("Por favor, digite um número válido.");
+                    }
+                } else {
+                    break;
+                }
+            }
+            return amostra;
+        }
+
+        function MostrarAmostra(amostra) {
+            const amostraDiv = document.getElementById('amostra');
+            amostraDiv.innerHTML = "";
+
+            amostra.forEach((nota, index) => {
+                const notaElement = document.createElement('p');
+                notaElement.textContent = `Nota ${index + 1}: ${nota}`;
+                amostraDiv.appendChild(notaElement);
+            });
+
+            const media = calcularMedia(amostra);
+            document.getElementById('media').textContent = media.toFixed(2);
+
+            const percentual = calcularPercentual(amostra, media);
+            document.getElementById('percentual').textContent = percentual.toFixed(2);
+        }
+
+        function calcularMedia(amostra) {
+            const soma = amostra.reduce((acc, nota) => acc + nota, 0);
+            return soma / amostra.length;
+        }
+
+        function calcularPercentual(amostra, media) {
+            const acimaMedia = amostra.filter(nota => nota > media).length;
+            return (acimaMedia / amostra.length) * 100;
+        }
+
+        DigitaAmostra();
+    </script>
+</body>
+</html>
